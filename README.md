@@ -27,7 +27,8 @@ cp build/bin/bootnode /usr/local/bin
 wget -q https://github.com/jpmorganchase/quorum/releases/download/v1.2.0/porosity
 mv porosity /usr/local/bin && chmod 0755 /usr/local/bin/porosity
 ```
-
+- **Docker Imange**
+> https://hub.docker.com/r/dushyantbhalgami/quorum/tags/ 
 ## How to use:
 ```
 ./setup.sh
