@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#
+# This is used at Container start up to run the constellation and geth nodes
+#
+
+set -u
+set -e
+
+### Configuration Options
+TMCONF=/node/tm.conf
+
+GETH_ARGS="--datadir /node/dd --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum --nodiscover --unlock 0 --raftport 22003 --rpcport 22000 --port 21001 --password /node/password.txt --nat extip:#ipaddress#"
+
+if [ ! -d /node/dd/geth/chaindata ]; then
+  echo "[*] Mining Genesis block"
+  /usr/local/bin/geth --datadir /node/dd init /node/genesis.json
+fi
+
+echo "[*] Starting Constellation node"
+nohup /usr/local/bin/constellation-node $TMCONF &
+
+sleep 10
+
+echo "[*] Starting node"
+PRIVATE_CONFIG=$TMCONF nohup /usr/local/bin/geth $GETH_ARGS
+
